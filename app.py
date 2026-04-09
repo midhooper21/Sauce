@@ -16,7 +16,7 @@ mode = st.sidebar.selectbox("Choose your weapon:", ["Homework Help/Chat", "Creat
 
 # --- MODE 1: CHAT & HOMEWORK ---
 if mode == "Homework Help/Chat":
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    model = genai.GenerativeModel('gemini-2.0-flash')
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
