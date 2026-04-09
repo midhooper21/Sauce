@@ -4,8 +4,8 @@ from PIL import Image
 import time
 
 # --- 1. SECURITY CONFIG ---
-# Change this to whatever you want your private password to be
-THE_PASSWORD = "Jaelin11@" 
+# Your private password
+THE_PASSWORD = "sauce_god_2026" 
 
 def check_password():
     if "password_correct" not in st.session_state:
@@ -23,28 +23,27 @@ def check_password():
             st.session_state.password_correct = True
             st.rerun()
         else:
-            st.error("🚫 Wrong password. Practice your jump shot instead.")
+            st.error("🚫 Access Denied.")
     return False
 
-# Stop execution if not logged in
 if not check_password():
     st.stop()
 
-# --- 2. AI CONFIG ---
+# --- 2. AI CONFIG (2026 UPDATE) ---
 try:
-    # Make sure 'GEMINI_API_KEY' is set in your Streamlit Cloud Secrets
+    # Ensure GEMINI_API_KEY is in your Streamlit Cloud Secrets
     API_KEY = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=API_KEY)
 except Exception as e:
-    st.error("Missing API Key! Go to Streamlit Settings > Secrets and add: GEMINI_API_KEY = 'your_key'")
+    st.error("API Key missing! Add GEMINI_API_KEY to your Streamlit Secrets.")
     st.stop()
 
-# Use 'gemini-1.5-flash-latest' to avoid the 404 errors you were seeing
-MODEL_NAME = 'gemini-1.5-flash-latest'
+# Using the stable 2026 model name to stop 404 errors
+MODEL_NAME = 'gemini-2.5-flash'
 
 st.set_page_config(page_title="The Private Oracle", page_icon="🏀")
 st.title("🧠 The Private Oracle")
-st.caption("Secure. Fast. Unblocked. Built for Jaelin.")
+st.caption("Secure. Stable. Built for the SG transition.")
 
 # Sidebar
 st.sidebar.title("Controls")
@@ -53,23 +52,20 @@ if st.sidebar.button("Log Out"):
     st.session_state.password_correct = False
     st.rerun()
 
-# --- 3. MODE: HOMEWORK HELP (CHAT) ---
+# --- 3. CHAT MODE ---
 if mode == "Homework Help":
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Display chat history
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
     if prompt := st.chat_input("Ask a question..."):
-        # Display user message
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
 
-        # Generate and display assistant response
         with st.chat_message("assistant"):
             try:
                 model = genai.GenerativeModel(MODEL_NAME)
@@ -77,20 +73,15 @@ if mode == "Homework Help":
                 st.markdown(response.text)
                 st.session_state.messages.append({"role": "assistant", "content": response.text})
             except Exception as e:
-                if "429" in str(e):
-                    st.error("Slow down! You're hitting the free limit. Wait 30 seconds.")
-                else:
-                    st.error(f"Error: {e}")
+                st.error(f"Error: {e}")
 
-# --- 4. MODE: ANALYZE IMAGE ---
+# --- 4. IMAGE MODE ---
 elif mode == "Analyze Image":
-    st.write("Take a photo of your homework or meal prep and I'll break it down.")
     uploaded_file = st.file_uploader("Upload Image", type=["jpg", "jpeg", "png"])
-    
     if uploaded_file:
         img = Image.open(uploaded_file)
-        st.image(img, caption="Scanning...", use_container_width=True)
-        instruction = st.text_input("Instructions:", "Solve this and explain how it works.")
+        st.image(img, use_container_width=True)
+        instruction = st.text_input("Instructions:", "Solve and explain.")
         
         if st.button("Analyze"):
             with st.spinner("Thinking..."):
