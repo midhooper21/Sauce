@@ -30,7 +30,14 @@ if mode == "Homework Help/Chat":
             st.markdown(prompt)
 
         with st.chat_message("assistant"):
-            response = model.generate_content(prompt)
+           try:
+    response = model.generate_content(prompt)
+    st.markdown(response.text)
+except Exception as e:
+    if "429" in str(e) or "ResourceExhausted" in str(e):
+        st.error("Chill out! The AI is catching its breath. Try again in 30 seconds.")
+    else:
+        st.error(f"Something went wrong: {e}")
             st.markdown(response.text)
             st.session_state.messages.append({"role": "assistant", "content": response.text})
 
