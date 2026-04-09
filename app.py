@@ -4,7 +4,7 @@ from PIL import Image
 import io
 
 # Setup - Replace with your actual key or use streamlit secrets
-API_KEY = "YOUR_GEMINI_API_KEY"
+API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=API_KEY)
 
 st.set_page_config(page_title="The Unblocked Oracle", page_icon="💀")
