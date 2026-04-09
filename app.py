@@ -5,7 +5,7 @@ import time
 
 # --- 1. SECURITY CONFIG ---
 # Your private password
-THE_PASSWORD = "Jaelin11@" 
+THE_PASSWORD = "Jaelin1102@" 
 
 def check_password():
     if "password_correct" not in st.session_state:
