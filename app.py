@@ -31,7 +31,7 @@ if mode == "Homework Help/Chat":
 
         with st.chat_message("assistant"):
            try:
-        response = model.generate_content(prompt)
+            response = model.generate_content(prompt)
         st.markdown(response.text)
 except Exception as e:
     if "429" in str(e) or "ResourceExhausted" in str(e):
